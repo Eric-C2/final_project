@@ -1,23 +1,28 @@
+using final_project.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddDbContext<TeamMemberContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TeamMembersContext")));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerDocument();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwaggerUi();
+    var dbContext = scope.ServiceProvider.GetRequiredService<TeamMemberContext>();
+    dbContext.Database.Migrate();
 }
 
+
+// Configure the HTTP request pipeline.
 app.UseSwaggerUi();
 app.UseOpenApi();
 

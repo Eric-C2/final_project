@@ -5,7 +5,7 @@ namespace final_project.Models
     public class TeamMember
     {
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string? TeamMemberFullName { get; set; }
 
