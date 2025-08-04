@@ -6,12 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
-// TeamMember Table and DAO
 builder.Services.AddDbContext<TeamMemberContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("TeamMembersContext")));
-builder.Services.AddScoped<TeamMemberContextDAO>();
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
