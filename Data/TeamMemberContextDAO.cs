@@ -13,14 +13,14 @@ public class TeamMemberContextDAO : ITeamMember
         _context = context;
     }
 
-    public List<TeamMember> GetAllMembers()
-    {
-        return _context.TeamMembers.ToList();
-    }
-
-    public TeamMember? GetTeamMemberById(int id)
+    public TeamMember? GetTeamMember(int? id)
     {
         return _context.TeamMembers.Where(x => x.Id.Equals(id)).FirstOrDefault();
+    }
+
+    public List<TeamMember> First5Members()
+    {
+        return _context.TeamMembers.Take(5).ToList();
     }
 
     public int? AddTeamMember(TeamMember member)
@@ -37,10 +37,13 @@ public class TeamMemberContextDAO : ITeamMember
         }
     }
 
-    public int? RemoveTeamMemberById(int id) 
+    public int? DeleteTeamMember(int id) 
     { 
-        var member = this.GetTeamMemberById(id);
-        if (member == null) return null;
+        var member = this.GetTeamMember(id);
+        
+        if (member == null) 
+            return null;
+
         try
         {
             _context.TeamMembers.Remove(member);
@@ -53,16 +56,20 @@ public class TeamMemberContextDAO : ITeamMember
         }
     }
 
-    public int? UpdateMember(TeamMember member) 
+    public int? UpdateTeamMember(TeamMember member) 
     {
-        var MemberToUpdate = this.GetTeamMemberById(member.Id);
+        var MemberToUpdate = this.GetTeamMember(member.Id);
         if (MemberToUpdate == null) 
             return null;
 
-        MemberToUpdate = member;
+        MemberToUpdate.TeamMemberFullName = member.TeamMemberFullName;
+        MemberToUpdate.BirthDay           = member.BirthDay;  
+        MemberToUpdate.CollegeProgram     = member.CollegeProgram;
+        MemberToUpdate.BirthDay           = member.BirthDay;
+
         try
         {
-            _context.TeamMembers.Update(member);
+            _context.TeamMembers.Update(MemberToUpdate);
             _context.SaveChanges();
             return 1;
         }
@@ -71,6 +78,4 @@ public class TeamMemberContextDAO : ITeamMember
             return 0;
         }
     }
-
-    
 }

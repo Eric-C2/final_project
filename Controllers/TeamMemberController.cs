@@ -9,7 +9,6 @@ namespace final_project.Controllers
     [ApiController]
     [Route("[controller]")]
     public class TeamMemberController : ControllerBase
-
     {
 
         public required TeamMemberContextDAO _context;
@@ -20,26 +19,26 @@ namespace final_project.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById(int id)
+        public IActionResult Get(int? id)
         {
-            var result = _context.GetTeamMemberById(id);
+            if (id is null or 0)
+                return Ok(_context.First5Members());
+
+            var result = _context.GetTeamMember(id);
 
             if (result == null)
                 return NotFound(id);
 
             return Ok(result);
-   
         }
 
         [HttpPost]
         public IActionResult Post(TeamMember member)
         {
-
             var result = _context.AddTeamMember(member);
 
             if (result == null)
                 return StatusCode(500, "Member already exists");
-
 
             if (result == 0)
                 return StatusCode(500, "An error occurred while processing your request.");
@@ -50,7 +49,7 @@ namespace final_project.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var result = _context.RemoveTeamMemberById(id);
+            var result = _context.DeleteTeamMember(id);
 
             if (result == null)
                 return NotFound();
@@ -64,7 +63,7 @@ namespace final_project.Controllers
         [HttpPut]
         public IActionResult Put(TeamMember member) 
         {
-            var result = _context.UpdateMember(member);
+            var result = _context.UpdateTeamMember(member);
 
             if (result == null)
                 return NotFound(member.Id);
@@ -76,9 +75,9 @@ namespace final_project.Controllers
         }
 
         [HttpPatch]
-        public IActionResult UpdateTeamMember(TeamMember member) 
+        public IActionResult Update(TeamMember member) 
         {
-            var result = _context.UpdateMember(member);
+            var result = _context.UpdateTeamMember(member);
 
             if (result == null)
                 return NotFound(member.Id);
