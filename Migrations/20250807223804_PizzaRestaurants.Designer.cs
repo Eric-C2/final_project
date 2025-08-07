@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using final_project.Data;
 
@@ -11,9 +12,11 @@ using final_project.Data;
 namespace final_project.Migrations
 {
     [DbContext(typeof(TeamMemberContext))]
-    partial class TeamMemberContextModelSnapshot : ModelSnapshot
+    [Migration("20250807223804_PizzaRestaurants")]
+    partial class PizzaRestaurants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
