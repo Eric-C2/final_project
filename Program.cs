@@ -36,6 +36,8 @@ builder.Services.AddScoped<VideoGameContextDAO>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
+builder.Services.AddScoped<PizzaRestaurantDAO>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
