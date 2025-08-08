@@ -4,6 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/*
+    When I added a new table, I had to run these commands in command prompt before it would work.
+
+    dotnet ef migrations add InitialCreate --context ContactContext
+    dotnet ef database update --context ContactContext
+ */
+
 // Add services to the container.
 builder.Services.AddControllers();
 
