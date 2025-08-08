@@ -36,21 +36,41 @@ namespace final_project.Controllers
         [HttpGet]
         public IActionResult Get(int id)
         {
-            _context.Get(id);
+            var result = _context.Get(id);
+            if(result == null)
+            {
+                return StatusCode(500, "Entry does not exist or there was an error");
+            }
             return Ok();
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            _context.Delete(id);
+            var result = _context.Delete(id);
+            if(result == null)
+            {
+                return StatusCode(500, "Entry does not exist");
+            }
+            if(result == false)
+            {
+                return StatusCode(500, "There was an error processing your request");
+            }
             return Ok();
         }
 
         [HttpPut]
         public IActionResult Put(PizzaRestaurant pizzaRestaurant)
         {
-            _context.Put(pizzaRestaurant);
+            var result = _context.Put(pizzaRestaurant);
+            if (result == null)
+            {
+                return StatusCode(500, "Entry does not exist");
+            }
+            if(result == false)
+            {
+                return StatusCode(500, "There was an error processing your request");
+            }
             return Ok();
         }
 

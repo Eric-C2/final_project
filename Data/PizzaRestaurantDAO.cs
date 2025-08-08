@@ -15,38 +15,59 @@ namespace final_project.Data
         public bool? Add(PizzaRestaurant pizzaRestaurant)
         {
             if(pizzaRestaurant == null)
-            {
-                return null;
+            {//this means that whatever called this method sent something null
+                return null;//It doesn't mean that the entry already exists
             }
             else
             {
+                /*
+                 * before the try catch block would be the logic to check if the entry already exists,
+                 * but I'm unsure of how to check for an existing entry, since all of the fields might be null.
+                 * For now I guess it will be the name
+                 *
+                 */
+
+                var duplicateEntry = GetByName(pizzaRestaurant.Name);
+                if(duplicateEntry != null)
+                {
+                    return null;//this means the entry exists already
+                }
+
                 try
                 {
                     _context.PizzaRestaurants.Add(pizzaRestaurant);
                     _context.SaveChanges();
-                    return true;
+                    return true;//we added the entry successfully!
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
-                    return false;
+                    return false;//something broke
                 }
             }
         }
         public PizzaRestaurant? Get(int id)
         {
-            var entryToReturn = _context.PizzaRestaurants//return data
-                .Where(//where the entry in our db has an ID that matches the input
-                entry => entry.Id.Equals(id))
-                .FirstOrDefault();//get the first one that matches
+            try
+            {
+                var entryToReturn = _context.PizzaRestaurants//return data
+                    .Where(//where the entry in our db has an ID that matches the input
+                    entry => entry.Id.Equals(id))
+                    .FirstOrDefault();//get the first one that matches
 
-            if(entryToReturn == null)
-            {//if no entry is found
-                return null;//return null
+                if (entryToReturn == null)
+                {//if no entry is found
+                    return null;//return null
+                }
+                else
+                {//otherwise send the entry
+                    return entryToReturn;
+                }
             }
-            else
-            {//otherwise send the entry
-                return entryToReturn;
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;//something broke
             }
         }
         public PizzaRestaurant? GetByName(string name)
@@ -59,7 +80,7 @@ namespace final_project.Data
             catch(Exception ex)
             {
                 Debug.WriteLine(ex);
-                return null;
+                return null;//something broke
             }
         }
         //public int? Update()
@@ -83,7 +104,7 @@ namespace final_project.Data
             }
             else
             {
-                return false;//thought about making it try again, but I figured that would be bad practice
+                return null;//thought about making it try again, but I figured that would be bad practice
             }
         }
 
@@ -100,6 +121,10 @@ namespace final_project.Data
                     entryToUpdate.IsOverPriced = pizzaRestaurant.IsOverPriced;
                     _context.PizzaRestaurants.Update(entryToUpdate);
                     _context.SaveChanges();
+                }
+                else
+                {
+                    return null;
                 }
                 return true;
             }
