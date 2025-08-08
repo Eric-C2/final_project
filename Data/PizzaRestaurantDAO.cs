@@ -46,7 +46,7 @@ namespace final_project.Data
                 }
             }
         }
-        public PizzaRestaurant? Get(int id)
+        public PizzaRestaurant? Get(int? id)
         {
             try
             {
@@ -132,6 +132,24 @@ namespace final_project.Data
             {
                 Debug.WriteLine(ex);
                 return false;
+            }
+        }
+
+        public List<PizzaRestaurant>? GetTopFive()
+        {
+            try
+            {
+                var listedEntries = _context.
+                                    PizzaRestaurants.
+                                    OrderByDescending(entry => entry.Id).
+                                    Take(5).
+                                    ToList();//comedically long variable declaration
+                return listedEntries;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
             }
         }
     }

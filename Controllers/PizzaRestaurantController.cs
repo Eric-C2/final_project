@@ -30,18 +30,30 @@ namespace final_project.Controllers
             {
                 return StatusCode(500, "There was an error processing your request");
             }
-            return Ok();
+            return Ok(result);
         }
 
         [HttpGet]
-        public IActionResult Get(int id)
+        public IActionResult Get(int? id)
         {
-            var result = _context.Get(id);
-            if(result == null)
+            if(id == 0 || id == null)
             {
-                return StatusCode(500, "Entry does not exist or there was an error");
+                var result = _context.GetTopFive();
+                if (result == null)
+                {
+                    return StatusCode(500, "Entry does not exist or there was an error");
+                }
+                return Ok(result);
             }
-            return Ok();
+            else
+            {
+                var result = _context.Get(id);
+                if (result == null)
+                {
+                    return StatusCode(500, "Entry does not exist or there was an error");
+                }
+                return Ok(result);
+            }
         }
 
         [HttpDelete]
@@ -56,7 +68,7 @@ namespace final_project.Controllers
             {
                 return StatusCode(500, "There was an error processing your request");
             }
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPut]
@@ -71,7 +83,7 @@ namespace final_project.Controllers
             {
                 return StatusCode(500, "There was an error processing your request");
             }
-            return Ok();
+            return Ok(result);
         }
 
         //[HttpPut]
