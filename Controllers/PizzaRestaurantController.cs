@@ -25,6 +25,20 @@ namespace final_project.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            _context.Get(id);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            _context.Delete(id);
+            return Ok();
+        }
+
         //[HttpPut]
         //public IActionResult Put(PizzaRestaurant pizzaRestaurant)
         //{
