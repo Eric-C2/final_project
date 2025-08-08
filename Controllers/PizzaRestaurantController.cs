@@ -21,7 +21,15 @@ namespace final_project.Controllers
         [HttpPost]
         public IActionResult Post(PizzaRestaurant pizzaRestaurant)
         {
-            _context.Add(pizzaRestaurant);
+            var result = _context.Add(pizzaRestaurant);
+            if (result == null)
+            {
+                return StatusCode(500, "This entry already exists");
+            }
+            if (result == false)
+            {
+                return StatusCode(500, "There was an error processing your request");
+            }
             return Ok();
         }
 
