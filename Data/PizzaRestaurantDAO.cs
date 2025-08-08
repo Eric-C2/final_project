@@ -59,5 +59,28 @@ namespace final_project.Data
                 return false;//thought about making it try again, but I figured that would be bad practice
             }
         }
+
+        public bool? Put(PizzaRestaurant pizzaRestaurant)//there's gotta be a way to make this a non-specific object, so you can toss in anything
+        {
+            var entryToUpdate = Get(pizzaRestaurant.Id);
+            try
+            {
+                if(entryToUpdate != null)
+                {
+                    entryToUpdate.Name = pizzaRestaurant.Name;
+                    entryToUpdate.HasStuffedCrust = pizzaRestaurant.HasStuffedCrust;
+                    entryToUpdate.YearFounded = pizzaRestaurant.YearFounded;
+                    entryToUpdate.IsOverPriced = pizzaRestaurant.IsOverPriced;
+                    _context.PizzaRestaurants.Update(entryToUpdate);
+                    _context.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+        }
     }
 }

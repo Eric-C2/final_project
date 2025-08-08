@@ -39,6 +39,13 @@ namespace final_project.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        public IActionResult Put(PizzaRestaurant pizzaRestaurant)
+        {
+            _context.Put(pizzaRestaurant);
+            return Ok();
+        }
+
         //[HttpPut]
         //public IActionResult Put(PizzaRestaurant pizzaRestaurant)
         //{
