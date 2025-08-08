@@ -1,10 +1,11 @@
 ﻿using final_project.Models;
+using System.Diagnostics;
 
 namespace final_project.Data
 {
     public class PizzaRestaurantDAO
     {
-        public TeamMemberContext _context;
+        private readonly TeamMemberContext _context;
         public PizzaRestaurantDAO(TeamMemberContext context)
         {
         
@@ -23,6 +24,7 @@ namespace final_project.Data
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return 0;
             }
         }

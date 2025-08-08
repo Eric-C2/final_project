@@ -6,20 +6,23 @@ using System.Runtime.InteropServices;
 
 namespace final_project.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class PizzaRestaurantController : ControllerBase
     {
         private readonly ILogger<PizzaRestaurantController> _logger;
-        private readonly TeamMemberContext _context;
-        public PizzaRestaurantController(ILogger<PizzaRestaurantController> logger, TeamMemberContext context)
+        private readonly PizzaRestaurantDAO _context;
+        public PizzaRestaurantController(ILogger<PizzaRestaurantController> logger, PizzaRestaurantDAO context)
         {
             _logger = logger;
             _context = context;
         }
 
-        //[HttpPost]
+        [HttpPost]
         public IActionResult Post(PizzaRestaurant pizzaRestaurant)
         {
             _context.Add(pizzaRestaurant);
+            return Ok();
         }
 
         //[HttpPut]
