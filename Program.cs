@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
     dotnet ef migrations add InitialCreate --context ContactContext
     dotnet ef database update --context ContactContext
+
+
+    dotnet ef migrations add InitialCreate --context VideoGameContext
+    dotnet ef database update --context VideoGameContext
  */
 
 // Add services to the container.
@@ -24,6 +28,11 @@ builder.Services.AddDbContext<ContactContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ContactsContext")));
 builder.Services.AddScoped<ContactContextDAO>();
 
+// VideoGame Table and DAO
+builder.Services.AddDbContext<VideoGameContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("VideoGamesContext")));
+builder.Services.AddScoped<VideoGameContextDAO>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
@@ -36,6 +45,7 @@ using (var scope = app.Services.CreateScope())
         // add Context files here
         scope.ServiceProvider.GetRequiredService<TeamMemberContext>(),
         scope.ServiceProvider.GetRequiredService<ContactContext>(),
+        scope.ServiceProvider.GetRequiredService<VideoGameContext>()
     };
 
     foreach (var context in contexts)
